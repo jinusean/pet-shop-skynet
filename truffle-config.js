@@ -1,5 +1,4 @@
 require('dotenv').config({})
-const {getWalletProvider} = require('./tools/polyjuice-provider')
 
 module.exports = {
     /**
@@ -14,10 +13,9 @@ module.exports = {
 
     networks: {
         development: {
-            provider: getWalletProvider(),
-            network_id: process.env.NETWORK_ID || 71393,
-            from: process.env.ACCOUNT_ADDRESS,
-            gas: process.env.GAS
+            host: "127.0.0.1",
+            port: 8545,
+            network_id: process.env.NETWORK_ID
         }
     },
 

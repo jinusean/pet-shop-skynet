@@ -1,14 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Web3 from 'web3'
 import {ToastContainer, toast} from 'react-toastify'
-import {AddressTranslator} from 'nervos-godwoken-integration'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 import './css/app.css'
 
 import {Adoption} from './contracts/Adoption'
 import pets from './pets.json'
-import {getHttpProvider} from '../tools/polyjuice-provider'
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -17,7 +15,6 @@ export function App() {
   const [ethAddress, setEthAddress] = useState()
   const [adopters, setAdopters] = useState()
   const [contract, setContract] = useState()
-  const [polyjuiceAddress, setPolyjuiceAddress] = useState()
   const [transactionInProgress, setTransactionInProgress] = useState(false)
   const toastId = React.useRef(null)
 
@@ -27,17 +24,15 @@ export function App() {
 
     if (_account) {
       toast('Wallet connected')
-      const addressTranslator = new AddressTranslator()
-      setPolyjuiceAddress(addressTranslator.ethAddressToGodwokenShortAddress(_account))
-
     } else {
       toast.warning('Wallet disconnected')
-      setPolyjuiceAddress()
     }
   }
 
   const fetchAdopters = async (contract) => {
+    console.log('hello')
     const _adopters = await contract.getAdopters()
+    console.log(_adopters)
     setAdopters(_adopters)
   }
 
@@ -85,7 +80,7 @@ export function App() {
       }
       setProvider(_provider)
 
-      const _web3 = new Web3(getHttpProvider() || Web3.givenProvider)
+      const _web3 = new Web3(Web3.givenProvider)
       const _contract = new Adoption(_web3)
       setContract(_contract)
       await fetchAdopters(_contract)
@@ -150,7 +145,7 @@ export function App() {
     if (adopters?.[petId] === ZERO_ADDRESS) {
       return 'None'
     }
-    if (adopters?.[petId].toLowerCase() === polyjuiceAddress) {
+    if (adopters?.[petId].toLowerCase() === ethAddress) {
       return 'Me'
     }
     return adopters?.[petId]
@@ -172,7 +167,7 @@ export function App() {
       )
     }
 
-    if (adopters?.[petId].toLowerCase() === polyjuiceAddress) {
+    if (adopters?.[petId].toLowerCase() === ethAddress) {
       // allow user to abandon owned pets
       return (
         <div>
