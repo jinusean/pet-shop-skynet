@@ -15,7 +15,7 @@ module.exports = {
     networks: {
         development: {
             provider: getWalletProvider(),
-            network_id: process.env.NETWORK_ID || 71393,
+            network_id: process.env.NETWORK_ID,
             from: process.env.ACCOUNT_ADDRESS,
             gas: process.env.GAS
         }
