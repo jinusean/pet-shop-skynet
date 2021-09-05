@@ -1,0 +1,60 @@
+{
+    "name": "petshop",
+    "description": "",
+    "license": "MIT",
+    "author": "",
+    "homepage": "",
+    "version": "0.0.1",
+    "main": "",
+    "files": [
+        "dist/js/build",
+        "dist/js/src"
+    ],
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "clean": "shx rm -rf dist build",
+        "compile": "truffle compile",
+        "start:ganache": "ganache-cli -m 'chalk park staff buzz chair purchase wise oak receive avoid avoid home' -l 8000000 -e 1000000 -a 20 -g 0 --chainId 1337",
+        "prettier": "prettier --write --config-precedence file-override './src/**/*'",
+        "dev": "webpack serve",
+        "migrate": "truffle migrate"
+    },
+    "dependencies": {
+        "@metamask/detect-provider": "^1.2.0",
+        "@polyjuice-provider/web3": "0.0.1-rc6",
+        "nervos-godwoken-integration": "0.0.6",
+        "react-toastify": "^7.0.4",
+        "web3": "1.3.4"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.15.5",
+        "@babel/preset-env": "^7.15.4",
+        "@babel/preset-react": "^7.14.5",
+        "@polyjuice-provider/truffle": "^0.0.1-rc7",
+        "@truffle/hdwallet-provider": "^1.4.3",
+        "assert": "^2.0.0",
+        "babel-loader": "^8.2.2",
+        "crypto-browserify": "^3.12.0",
+        "css-loader": "3.4.2",
+        "dotenv-webpack": "^7.0.3",
+        "file-loader": "^6.2.0",
+        "html-webpack-plugin": "5.3.1",
+        "https-browserify": "^1.0.0",
+        "os-browserify": "^0.3.0",
+        "prettier": "1.19.1",
+        "react": "16.12.0",
+        "react-dom": "16.12.0",
+        "stream-browserify": "^3.0.0",
+        "stream-http": "^3.2.0",
+        "style-loader": "1.1.3",
+        "truffle": "^5.2.6",
+        "webpack": "5.36.0",
+        "webpack-cli": "4.6.0",
+        "webpack-dev-server": "3.11.2"
+    },
+    "engines": {
+        "node": "14"
+    }
+}
