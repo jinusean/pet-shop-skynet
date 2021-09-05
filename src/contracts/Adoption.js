@@ -1,6 +1,6 @@
-import AdoptionJSON from '../build/contracts/Adoption.json'
+import AdoptionJSON from '../../build/contracts/Adoption.json'
 
-export class AdoptionWrapper {
+export class Adoption {
   constructor(web3) {
     this.web3 = web3
 

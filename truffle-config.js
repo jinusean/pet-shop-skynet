@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-var-requires */
-require('dotenv-defaults/config')
-const getProvider = require('./tools/provider')
+require('dotenv').config({})
+const {getWalletProvider} = require('./tools/polyjuice-provider')
 
 module.exports = {
     /**
@@ -15,16 +14,11 @@ module.exports = {
 
     networks: {
         development: {
-            provider: getProvider(),
+            provider: getWalletProvider(),
             network_id: process.env.NETWORK_ID || 71393,
             from: process.env.ACCOUNT_ADDRESS,
             gas: process.env.GAS
         }
-    },
-
-    // Set default mocha options here, use special reporters etc.
-    mocha: {
-        // timeout: 100000
     },
 
     // Configure your compilers
@@ -42,14 +36,4 @@ module.exports = {
             }
         }
     },
-
-    // Truffle DB is currently disabled by default; to enable it, change enabled: false to enabled: true
-    //
-    // Note: if you migrated your contracts prior to enabling this field in your Truffle project and want
-    // those previously migrated contracts available in the .db directory, you will need to run the following:
-    // $ truffle migrate --reset --compile-all
-
-    db: {
-        enabled: false
-    }
 }

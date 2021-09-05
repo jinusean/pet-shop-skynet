@@ -5,40 +5,38 @@ import {AddressTranslator} from 'nervos-godwoken-integration'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 import './css/app.css'
-import './css/bootstrap.min.css'
 
-import {AdoptionWrapper} from './AdoptionWrapper'
-import {ZERO_ADDRESS} from './constants'
+import {Adoption} from './contracts/Adoption'
 import pets from './pets.json'
-import {getHttpProvider} from '../tools/provider'
+import {getHttpProvider} from '../tools/polyjuice-provider'
 
+export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export function App() {
   const [provider, setProvider] = useState()
-  const [web3, setWeb3] = useState()
-  const [account, setAccount] = useState()
+  const [ethAddress, setEthAddress] = useState()
   const [adopters, setAdopters] = useState()
   const [contract, setContract] = useState()
   const [polyjuiceAddress, setPolyjuiceAddress] = useState()
-  const [l2Balance, setL2Balance] = useState()
   const [transactionInProgress, setTransactionInProgress] = useState(false)
   const toastId = React.useRef(null)
 
-  const handleAccountsChanged = useCallback(
-    (accounts) => {
-      const [_account] = accounts
-      setAccount(_account)
+  const handleAccountsChanged = (accounts) => {
+    const [_account] = accounts
+    setEthAddress(_account)
 
-      if (_account) {
-        toast('Wallet connected')
-      } else {
-        toast.warning('Wallet disconnected')
-      }
-    },
-    [account]
-  )
+    if (_account) {
+      toast('Wallet connected')
+      const addressTranslator = new AddressTranslator()
+      setPolyjuiceAddress(addressTranslator.ethAddressToGodwokenShortAddress(_account))
 
-  async function fetchAdopters(contract) {
+    } else {
+      toast.warning('Wallet disconnected')
+      setPolyjuiceAddress()
+    }
+  }
+
+  const fetchAdopters = async (contract) => {
     const _adopters = await contract.getAdopters()
     setAdopters(_adopters)
   }
@@ -47,7 +45,7 @@ export function App() {
     async (petId) => {
       try {
         setTransactionInProgress(true)
-        await contract.adopt(petId, account)
+        await contract.adopt(petId, ethAddress)
         toast('Adopted pet :)')
         await fetchAdopters(contract)
       } catch (error) {
@@ -57,14 +55,14 @@ export function App() {
         setTransactionInProgress(false)
       }
     },
-    [contract, account]
+    [contract, ethAddress]
   )
 
   const abandonPet = useCallback(
     async (petId) => {
       try {
         setTransactionInProgress(true)
-        await contract.abandon(petId, account)
+        await contract.abandon(petId, ethAddress)
         toast('Abandoned pet :(')
         await fetchAdopters(contract)
       } catch (error) {
@@ -74,7 +72,7 @@ export function App() {
         setTransactionInProgress(false)
       }
     },
-    [contract, account]
+    [contract, ethAddress]
   )
 
 
@@ -88,8 +86,7 @@ export function App() {
       setProvider(_provider)
 
       const _web3 = new Web3(getHttpProvider() || Web3.givenProvider)
-      setWeb3(_web3)
-      const _contract = new AdoptionWrapper(_web3)
+      const _contract = new Adoption(_web3)
       setContract(_contract)
       await fetchAdopters(_contract)
     })()
@@ -124,19 +121,6 @@ export function App() {
     })
   }, [provider])
 
-  useEffect(() => {
-    if (account) {
-      (async function () {
-        const addressTranslator = new AddressTranslator()
-        setPolyjuiceAddress(addressTranslator.ethAddressToGodwokenShortAddress(account))
-        const _l2Balance = await web3.eth.getBalance(account)
-        setL2Balance(BigInt(_l2Balance))
-      })()
-    } else {
-      setPolyjuiceAddress(undefined)
-      setL2Balance(undefined)
-    }
-  }, [account])
 
   useEffect(() => {
     if (transactionInProgress && !toastId.current) {
@@ -166,7 +150,7 @@ export function App() {
     if (adopters?.[petId] === ZERO_ADDRESS) {
       return 'None'
     }
-    if (account && adopters?.[petId] !== account) {
+    if (adopters?.[petId].toLowerCase() === polyjuiceAddress) {
       return 'Me'
     }
     return adopters?.[petId]
@@ -174,7 +158,7 @@ export function App() {
 
 
   function getCardFooter(petId) {
-    if (account && adopters?.[petId] === ZERO_ADDRESS) {
+    if (adopters?.[petId] === ZERO_ADDRESS) {
       // Pet has no owner
       return (
         <button
@@ -188,7 +172,7 @@ export function App() {
       )
     }
 
-    if (adopters && adopters[petId].toLowerCase() === polyjuiceAddress) {
+    if (adopters?.[petId].toLowerCase() === polyjuiceAddress) {
       // allow user to abandon owned pets
       return (
         <div>
@@ -203,6 +187,8 @@ export function App() {
         </div>
       )
     }
+
+    // has owner
     return <br/>
   }
 
@@ -211,28 +197,18 @@ export function App() {
       <div className="container">
         <h1 className="text-center">Pet Shop</h1>
 
-        <hr/>
-        <div>
-          {provider && !account && (
+
+        {provider && !ethAddress && (
+          <div>
+            <hr/>
             <button
               className="btn btn-primary"
               onClick={() => provider.request({method: 'eth_requestAccounts'})}
             >
               Enable Ethereum
             </button>
-          )}
-          {account && (
-            <div>
-              Your ETH address: <b>{account}</b>
-              <br/>
-              Your Polyjuice address: <b>{polyjuiceAddress || ' - '}</b>
-              <br/>
-              Balance: <b>{l2Balance ? `${(l2Balance / BigInt(10 ** 8)).toString()} CKB` : ' - '}</b>
-              <br/>
-              Contract address: <b>{contract?.address || '-'}</b> <br/>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
 
         <hr/>
 
@@ -244,7 +220,7 @@ export function App() {
                   <img
                     alt="nothing"
                     className="card-img-top"
-                    src={`images/${pet.name
+                    src={`static/${pet.name
                       .toLowerCase()
                       .replace(/\s/g, '-')}.png`}
                     data-holder-rendered="true"

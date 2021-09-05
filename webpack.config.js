@@ -25,9 +25,6 @@ module.exports = {
             https: 'https-browserify',
             os: 'os-browserify/browser',
             process: 'process/browser',
-            // vm: 'vm-browserify',
-            // $: 'jquery',
-            // jQuery: 'jquery'
         })
     ],
 
@@ -40,14 +37,12 @@ module.exports = {
             http: require.resolve('stream-http'),
             https: require.resolve('https-browserify'),
             os: require.resolve('os-browserify/browser'),
-            // process: require.resolve('process/browser'),
             stream: require.resolve('stream-browserify'),
-            // vm: require.resolve('vm-browserify')
         }
     },
 
     devServer: {
-        port: 3000,
+        port: process.env.PORT,
         compress: true,
         historyApiFallback: true
     },
