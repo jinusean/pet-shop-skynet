@@ -5,7 +5,7 @@ This project makes use of `@truffle/hdwallet-provider` & `truffle` for contract 
 
 ## Install Dependencies
 ```
-yarn
+npm installa
 ```
 
 ## Build/Deploy Contracts (migrations)
@@ -17,10 +17,10 @@ cp .env.example .env
 
 4. Run migrations
 ```
-yarn migrate
+npm run migrate
 ```
 ## Start UI
 
 ```
-yarn dev
+npm run dev
 ```
