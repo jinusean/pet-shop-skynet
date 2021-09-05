@@ -1,26 +1,26 @@
-# Blockchain workshop
+# Pet Shop
 
 This project makes use of `@truffle/hdwallet-provider` & `truffle` for contract migrations.
 
 
 ## Install Dependencies
 ```
-yarn
+npm installa
 ```
 
 ## Build/Deploy Contracts (migrations)
 1. Create local .env file
 ```
-cp .env.example .env` copy
+cp .env.example .env
 ```
 2. Update`.env` with account address and private key. These values can be found in Metamask.
 
 4. Run migrations
 ```
-truffle migrate
+npm run migrate
 ```
-
 ## Start UI
+
 ```
-yarn build && yarn ui
+npm run dev
 ```
