@@ -20,8 +20,7 @@ cp .env.example .env
 yarn migrate
 ```
 ## Start UI
-1. Update `NETWORK_ID` in `.env` with the networks key in the newly compiled contract's network property.
-2. Run app
+
 ```
 yarn dev
 ```
