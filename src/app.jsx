@@ -220,7 +220,7 @@ export function App() {
                   <img
                     alt="nothing"
                     className="card-img-top"
-                    src={`static/${pet.name
+                    src={`public/${pet.name
                       .toLowerCase()
                       .replace(/\s/g, '-')}.png`}
                     data-holder-rendered="true"
