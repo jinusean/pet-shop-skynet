@@ -1,9 +1,9 @@
 require('dotenv').config({})
-
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const Dotenv = require('dotenv-webpack')
+const Copy = require('copy-webpack-plugin')
 
 module.exports = {
     entry: './src/index.jsx',
@@ -27,7 +27,12 @@ module.exports = {
             https: 'https-browserify',
             os: 'os-browserify/browser',
             process: 'process/browser',
-        })
+        }),
+      new Copy({
+          patterns: [
+              {from: 'public', to: 'public'}
+          ]
+      })
     ],
 
     resolve: {
@@ -57,8 +62,7 @@ module.exports = {
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react'],
-                        plugins: ['@babel/plugin-transform-runtime']
+                        presets: ['@babel/preset-env', '@babel/preset-react']
                     }
                 }
             },
