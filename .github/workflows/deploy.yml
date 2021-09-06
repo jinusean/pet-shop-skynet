@@ -4,8 +4,6 @@ on:
   push:
     branches: [master]
 
-
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,10 +15,7 @@ jobs:
           node-version: 14.x
 
       - run: cp .env.example .env
-
-      - env:
-          SKYNET_CLIENT_SEED: ${{ secrets.SKYNET_CLIENT_SEED }}
-
+      - run: echo SKYENT_CLIENT_SEED=${{ secrets.SKYNET_CLIENT_SEED }} >> .env
       - run: yarn
       - run: yarn build
 
