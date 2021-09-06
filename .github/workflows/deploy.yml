@@ -4,6 +4,9 @@ on:
   push:
     branches: [master]
 
+env:
+  SKYNET_SEED: ${{secrets.SKYNET_CLIENT_SEED}}
+
 jobs:
   build:
     runs-on: ubuntu-latest

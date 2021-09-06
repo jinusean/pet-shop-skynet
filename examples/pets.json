@@ -4,7 +4,8 @@
     "name": "Frieda",
     "age": 3,
     "breed": "Scottish Terrier",
-    "location": "Lisco, Alabama"
+    "location": "Lisco, Alabama",
+    "likes": []
   },
   {
     "id": 1,
