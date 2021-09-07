@@ -1,0 +1,24 @@
+{
+  "name": "Pet Shop",
+  "short_name": "petshop",
+  "orientation": "portrait",
+  "homepage_url": "https://000abea.hns.siasky.net",
+  "description": "Ethereum contract port to CKB Polyjuice",
+  "icons": [
+    {
+      "src": "./public/192x192_App_Icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./public/512x512_App_Icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "iconPath": "./public/256x256_App_Icon.png",
+  "theme_color": "#00000",
+  "skylink": "AADhhmSEK3NsVLgtwoVL9BILM9g4xhFdF3ewkDlMrRo8wA"
+}

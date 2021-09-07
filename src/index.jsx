@@ -6,5 +6,7 @@ import './css/bootstrap.min.css'
 
 import { App } from './app';
 
+// import {setPets} from '../examples/set-pets'
+// setPets()
 
 render(<App />, document.getElementById('root'));
