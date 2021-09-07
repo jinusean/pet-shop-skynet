@@ -1,10 +1,5 @@
 import { SkynetClient, genKeyPairFromSeed } from "skynet-js";
 
-// Set an upload progress tracker.
-const onProgress = (progress, { loaded, total }) => {
-  console.info(`Progress ${Math.round(progress * 100)}%`);
-};
-
 export class SkyDb {
   #clientSeed
   #privateKey
@@ -23,7 +18,7 @@ export class SkyDb {
   }
 
   async get(key) {
-    const { data,dataLink } = await this.client.db.getJSON(this.publicKey, `${key}`)
+    const { data, dataLink } = await this.client.db.getJSON(this.publicKey, `${key}`)
     return data
   }
 
@@ -32,4 +27,3 @@ export class SkyDb {
     return res
   }
 }
-

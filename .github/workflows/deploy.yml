@@ -15,7 +15,6 @@ jobs:
           node-version: 14.x
       - run: cp .env.example .env
       - run: echo SKYNET_CLIENT_SEED='${{ secrets.SKYNET_CLIENT_SEED }}' >> .env
-      - run: cat .env
       - run: yarn
       - run: yarn build
 

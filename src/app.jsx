@@ -27,6 +27,9 @@ export function App() {
 
   async function fetchPet(petId) {
     const pet = await skyDb.get(petId)
+    if (!pet) {
+      return console.error('No pet found for:', petId)
+    }
     setPets(new Map(pets.set(petId, pet)))
   }
 
@@ -87,6 +90,9 @@ export function App() {
   )
 
   async function toggleLike(pet) {
+    if (!polyjuiceAddress) {
+      return toast.info('Please enable your wallet first.')
+    }
     if (pet.likes && pet.likes.includes(polyjuiceAddress)) {
       pet.likes = pet.likes.filter(x => x !== polyjuiceAddress)
       if (pet.likes.length === 0) {
@@ -187,6 +193,10 @@ export function App() {
 
 
   function getCardFooter(petId) {
+    if (!polyjuiceAddress || !adopters) {
+      return <br />
+    }
+
     if (adopters?.[petId] === ZERO_ADDRESS) {
       // Pet has no owner
       return (
@@ -258,7 +268,7 @@ export function App() {
                   <div className="card-body">
                     <div className=" d-flex justify-content-between align-content-center">
                       <h3 className="card-title">{pet.name}</h3>
-                      <button className="btn p-0" onClick={() => toggleLike(pet)}>
+                      <button className="btn p-0" onClick={() => toggleLike(pet)} disabled={!polyjuiceAddress}>
                         {pet.likes && pet.likes.includes(polyjuiceAddress)
                           ?
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
