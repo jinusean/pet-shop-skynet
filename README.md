@@ -42,4 +42,3 @@ stores the pets' data as JSON objects. Every _like_ iniates a state change and w
 - [x] use the Deploy to Skynet Github action for building and deploying your frontend automatically
 - [x] hosting off-chain, mutable application data on Skynet using SkyDB or MySky
 
-  <br/>_Note: *_Currently waiting for domain transfer from namebase account to bob wallet (according to the message this will take ~2 days)__
