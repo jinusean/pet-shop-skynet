@@ -16,3 +16,5 @@ _Currently waiting for domain transfer from namebase account to bob wallet (I di
 
 **Resolver Skylink**: sia://AQDt2MGDtEjix6YiVAwWpPtJ6DiQLGrMLkcxUCu7kvWVNQ  
 
+---
+

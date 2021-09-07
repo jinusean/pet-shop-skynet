@@ -106,7 +106,6 @@ export function App() {
     }
     setPets(new Map(pets.set(pet.id, pet)))
     const res = await skyDb.set(pet.id, pet)
-    console.log('toggled like', res)
 
   }
 
